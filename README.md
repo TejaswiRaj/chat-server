@@ -1,6 +1,6 @@
 Chat Server
 
-Simple chatroom in C loosely based on IRC. This project demonstrates the basic use of sockets. There is no client available but any telnet client will do. Just connect to the server on the specified port and address. By default port 1234 is used. This code runs on Linux.
+Simple chatroom in C loosely based on TCP. This project demonstrates the basic use of sockets. There is no client available but any telnet client will do. Just connect to the server on the specified port and address. By default port 1234 is used. This code runs on Linux.
 
 ## Build
 
