@@ -23,7 +23,7 @@ typedef struct {
     struct sockaddr_in addr; /* Client remote address */
     int connfd;              /* Connection file descriptor */
     int uid;                 /* Client unique identifier */
-    char name[32];           /* Client name */
+    char name[20];           /* Client name, size of 20 */
 } client_t;
 
 client_t *clients[MAX_CLIENTS];
