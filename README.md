@@ -26,9 +26,9 @@ Then start
 | Command       | Parameter             |                                     |
 | ------------- | --------------------- | ----------------------------------- |
 | /quit         |                       | Leave the chatroom                  |
-| /join         |                       | Server Join			      |
+| /join         |                       | Server Join			                    |
 | /topic        | [message]             | Set the roomname chatroom topic     |
-| /username     | [nickname]            | Change username                     |
+| /username     | [username]            | Change username                     |
 | /msg          | [reference] [message] | Send message                        |
 | /list         |                       | Show active clients                 |
 | /help         |                       | Show this help                      |
