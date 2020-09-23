@@ -23,7 +23,7 @@ typedef struct {
     struct sockaddr_in addr; /* Client remote address */
     int connfd;              /* Connection file descriptor */
     int uid;                 /* Client unique identifier */
-    char name[20];           /* Client name, size of 20 */
+    char name[21];           /* Client name of size 20*/
 } client_t;
 
 client_t *clients[MAX_CLIENTS];
@@ -218,23 +218,38 @@ void *handle_client(void *arg){
                 } else {
                     send_message_self("<< message cannot be null\r\n", cli->connfd);
                 }
-            } else if (!strcmp(command, "/username")) {
+            } else if (!strcmp(command, "/username")){
                 param = strtok(NULL, " ");
                 if (param) {
-                    char *old_name = _strdup(cli->name);
-                    if (!old_name) {
-                        perror("Cannot allocate memory");
-                        continue;
-                    }
-                    strncpy(cli->name, param, sizeof(cli->name));
-                    cli->name[sizeof(cli->name)-1] = '\0';
-                    sprintf(buff_out, "<< %s is now known as %s\r\n", old_name, cli->name);
-                    free(old_name);
-                    send_message_all(buff_out);
-                } else {
-                    send_message_self("<< name cannot be null\r\n", cli->connfd);
+			
+			if(strlen(param)>20)
+			{
+				printf("Error (exceeds 20)\n");
+				continue;
+			}
+                    	char *old_name = _strdup(cli->name);
+                    	if (!old_name) 
+			{
+                        	perror("Cannot allocate memory");
+                        	continue;
+                    	}
+                    	strncpy(cli->name, param, sizeof(cli->name));
+                    	cli->name[sizeof(cli->name)-1] = '\0';
+ 			sprintf(buff_out, "<< size of name %ld\r\n", sizeof(cli->name)/sizeof(cli->name[0]));
+		
+		
+                    	sprintf(buff_out, "<< %s is now known as %s\r\n", old_name, cli->name);
+	
+			
+                    	free(old_name);
+                    	send_message_all(buff_out);
+                } 
+		else
+		 {
+                    send_message_self("<< Error name cannot be null\r\n", cli->connfd);
                 }
-            } else if (!strcmp(command, "/msg")) {
+            }
+		 else if (!strcmp(command, "/msg")) {
                 param = strtok(NULL, " ");
                 if (param) {
                     int uid = atoi(param);
@@ -343,8 +358,8 @@ int main(int argc, char *argv[]){
         cli->addr = cli_addr;
         cli->connfd = connfd;
         cli->uid = uid++;
-        sprintf(cli->name, "%d", cli->uid);
-
+       // sprintf(cli->name, "%d", cli->uid);
+	snprintf(cli->name,21,"%d",cli->uid);
         /* Add client to the queue and fork thread */
         queue_add(cli);
         pthread_create(&tid, NULL, &handle_client, (void*)cli);
